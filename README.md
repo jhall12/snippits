@@ -12,3 +12,5 @@ sudo kubeadm init fails at timeout
 sudo sed -i 's/failureThreshold: 8/failureThreshold: 20/g' /etc/kubernetes/manifests/kube-apiserver.yaml
 docker kill apiserver name
 
+delete a deployment group
+kubectl delete -n <NAMESPACE> deployment <DEPLOYMENTNAME>
