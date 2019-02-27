@@ -1,7 +1,7 @@
 
 #Get Creds
 
-gcloud container clusters get-credentials
+gcloud container clusters get-credentials cluster-a
 
 #Set ENV variables
 
@@ -25,4 +25,4 @@ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
 helm init --service-account tiller
 helm repo add istio.io https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
 
-helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set kiali.enabled=true grafana.enabled=true servicegraph.enabled=true
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set kiali.enabled=true --set grafana.enabled=true --set servicegraph.enabled=true
