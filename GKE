@@ -21,6 +21,21 @@ curl -L https://git.io/getLatestIstio | sh -
 cd istio-1.0.6
 export PATH=$PWD/bin:$PATH
 
+# Kiali prep
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: istio-system
+  labels:
+    app: kiali
+type: Opaque
+data:
+  username: YWRtaW4=
+  passphrase: YWRtaW4=
+EOF
+
 kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
 helm init --service-account tiller
 helm repo add istio.io https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
