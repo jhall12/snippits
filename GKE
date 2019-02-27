@@ -1,0 +1,28 @@
+
+#Get Creds
+
+gcloud container clusters get-credentials
+
+#Set ENV variables
+
+gcloud config set compute/zone australia-southeast1-a	
+
+#Install Helm
+
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+
+#install Istio
+
+kubectl create clusterrolebinding cluster-admin-binding \
+    --clusterrole=cluster-admin \
+    --user=$(gcloud config get-value core/account)
+   
+curl -L https://git.io/getLatestIstio | sh -
+cd istio-1.0.6
+export PATH=$PWD/bin:$PATH
+
+kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+helm init --service-account tiller
+helm repo add istio.io https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
+
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set kiali.enabled=true grafana.enabled=true servicegraph.enabled=true
